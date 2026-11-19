@@ -3,105 +3,331 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Car Wash & Oleocentro "San Juan" | Sistema Web</title>
+    <title>Car Wash & Oleocentro "San Juan" | Sistema Integral</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
+<!-- Barra de Navegación Adaptativa (RNF07) -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="#"><i class="bi bi-car-front-fill text-warning me-2"></i>Car Wash "San Juan"</a>
-        <div class="collapse navbar-collapse" id="navMenu">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item"><a class="nav-link" href="#catalogo">Servicios</a></li>
-                <li class="nav-item d-none" id="navReservas"><a class="nav-link" href="#panelUsuario">Mis Reservas</a></li>
-                <li class="nav-item d-none" id="navAdmin"><a class="nav-link text-warning" href="#panelAdmin">Panel Administrativo</a></li>
+        <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
+            <span class="brand-badge me-2"><i class="bi bi-droplet-half"></i></span>
+            <span>Car Wash & Oleocentro <span class="text-warning">"San Juan"</span></span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navPrincipal">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navPrincipal">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="#seccionCatalogo">Catálogo de Servicios</a></li>
+                <li class="nav-item"><a class="nav-link" href="#seccionAccesoLocal">Ubicación y Acceso</a></li>
+                <li class="nav-item d-none" id="navCliente"><a class="nav-link text-info fw-semibold" href="#panelCliente">Mi Panel (Reservas y Seguimiento)</a></li>
+                <li class="nav-item d-none" id="navOperativo"><a class="nav-link text-warning fw-semibold" href="#panelOperativo">Gestión Operativa</a></li>
             </ul>
-            <div id="zonaAuth" class="d-flex gap-2">
-                <button class="btn btn-outline-light btn-sm" data-bs-toggle="modal" data-bs-target="#modalLogin">Iniciar Sesión</button>
-                <button class="btn btn-warning btn-sm fw-semibold" data-bs-toggle="modal" data-bs-target="#modalRegistro">Registrarse</button>
+            <div id="zonaSesion" class="d-flex gap-2 align-items-center">
+                <button class="btn btn-outline-light btn-sm" data-bs-toggle="modal" data-bs-target="#modalLogin">
+                    <i class="bi bi-box-arrow-in-right me-1"></i>Iniciar Sesión
+                </button>
+                <button class="btn btn-warning btn-sm fw-bold" data-bs-toggle="modal" data-bs-target="#modalRegistro">
+                    <i class="bi bi-person-plus me-1"></i>Registrarse
+                </button>
             </div>
         </div>
     </div>
 </nav>
 
+<!-- Notificaciones Toast (Feedback RNF01) -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer"></div>
+
 <main class="container my-4">
-    <section class="hero-banner shadow mb-4">
-        <div class="row align-items-center">
+
+    <!-- Banner Principal (Cap. 1 & 2: Mitigación de acceso físico mediante canal digital) -->
+    <section class="hero-section shadow-lg mb-5">
+        <div class="row align-items-center g-4">
             <div class="col-lg-8">
-                <span class="badge bg-warning text-dark mb-2">RUC: 20613143484 • Oleocentro & Car Wash</span>
-                <h1 class="display-6 fw-bold">Lavado y Mantenimiento Vehicular Profesional</h1>
-                <p class="lead mb-3">Reserva tu cita en línea, monitorea el estado de tu vehículo en tiempo real y consulta tus comprobantes.</p>
-                <p class="small mb-0"><i class="bi bi-geo-alt-fill text-warning"></i> Av. Fernando Belaúnde Terry MZ A LT 2</p>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                    <span class="badge bg-warning text-dark fw-bold">RUC: 20613143484</span>
+                    <span class="badge bg-light text-dark">Lubricantes Repsol • Mobil • Castrol</span>
+                </div>
+                <h1 class="display-5 fw-bold mb-3">Optimiza el Cuidado y Mantenimiento de tu Vehículo</h1>
+                <p class="lead opacity-90 mb-4">
+                    Agenda tu cita en línea sin esperas, consulta tarifas exactas según tu tipo de vehículo y monitorea paso a paso el avance del lavado o cambio de aceite en tiempo real.
+                </p>
+                <div class="d-flex flex-wrap gap-3">
+                    <button id="btnCtaPrincipal" class="btn btn-warning btn-lg fw-bold shadow" data-bs-toggle="modal" data-bs-target="#modalLogin">
+                        <i class="bi bi-calendar2-check me-2"></i>Reservar Servicio en Línea
+                    </button>
+                    <a href="#seccionCatalogo" class="btn btn-outline-light btn-lg">Ver Tarifas y Servicios</a>
+                </div>
             </div>
-            <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
-                <button id="btnHeroReservar" class="btn btn-warning btn-lg fw-bold shadow" data-bs-toggle="modal" data-bs-target="#modalLogin">
-                    <i class="bi bi-calendar-check me-2"></i>Agendar Cita Ahora
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <section id="catalogo" class="mb-5">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h3 class="fw-bold mb-0"><i class="bi bi-stars text-primary me-2"></i>Catálogo de Servicios</h3>
-            <button id="btnNuevoServicio" class="btn btn-primary btn-sm d-none" data-bs-toggle="modal" data-bs-target="#modalServicio">
-                <i class="bi bi-plus-circle me-1"></i>Nuevo Servicio
-            </button>
-        </div>
-        <div id="listaServicios" class="row g-3"></div>
-    </section>
-
-    <!-- Panel Cliente -->
-    <section id="panelUsuario" class="d-none mb-5">
-        <div class="row g-4">
             <div class="col-lg-4">
-                <div class="card shadow-sm border-0 mb-3">
-                    <div class="card-header bg-primary text-white fw-bold">1. Registrar Vehículo</div>
+                <div class="card bg-dark bg-opacity-75 text-white border-warning border-opacity-50 p-3">
+                    <h6 class="text-warning fw-bold mb-2"><i class="bi bi-info-circle me-1"></i>Cuentas Demo del Sistema (RF03)</h6>
+                    <ul class="list-unstyled small mb-0">
+                        <li class="mb-1"><strong>Admin:</strong> <code>admin@carwash.com</code> / <code>123456</code></li>
+                        <li class="mb-1"><strong>Personal:</strong> <code>personal@carwash.com</code> / <code>123456</code></li>
+                        <li><strong>Cliente:</strong> <code>cliente@carwash.com</code> / <code>123456</code></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Catálogo de Servicios con Calculadora por Tipo de Vehículo (RF04 + Cap. 3.2) -->
+    <section id="seccionCatalogo" class="mb-5">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+            <div>
+                <h3 class="fw-bold mb-0"><i class="bi bi-stars text-primary me-2"></i>Catálogo de Servicios y Tarifario</h3>
+                <small class="text-muted">Selecciona la categoría de tu vehículo para visualizar las tarifas ajustadas</small>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <label class="small fw-bold text-nowrap">Tipo de Vehículo:</label>
+                <select id="filtroTipoVehiculo" class="form-select form-select-sm border-primary" onchange="renderCatalogo()">
+                    <option value="AUTO">Auto / Sedán (Tarifa Base)</option>
+                    <option value="CAMIONETA">Camioneta / SUV (+25%)</option>
+                    <option value="MOTOCICLETA">Motocicleta (-35%)</option>
+                    <option value="OTRO">Otro / Utilitario (+40%)</option>
+                </select>
+            </div>
+        </div>
+        <div id="gridServicios" class="row g-3"></div>
+    </section>
+
+    <!-- Información del Establecimiento y Acceso (Cap. 1 & 2.1.1) -->
+    <section id="seccionAccesoLocal" class="mb-5">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+                <div class="row align-items-center g-3">
+                    <div class="col-md-7">
+                        <h5 class="fw-bold text-primary mb-2"><i class="bi bi-geo-alt-fill me-2"></i>Ubicación y Guía de Ingreso Vehicular</h5>
+                        <p class="mb-2"><strong>Dirección:</strong> Av. Fernando Belaúnde Terry MZ A LT 2, frente al Hospedaje El Manantial (Distrito de Puyango, Tumbes).</p>
+                        <div class="alert alert-warning py-2 px-3 small mb-0">
+                            <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                            <strong>Aviso de Acceso:</strong> Debido a trabajos viales en el frontis, contamos con <strong>rampa habilitada y acceso posterior señalizado</strong> para ingreso fluido de autos y camionetas.
+                        </div>
+                    </div>
+                    <div class="col-md-5 text-md-end">
+                        <div class="p-3 bg-light rounded border">
+                            <div class="fw-bold">Horario de Atención</div>
+                            <div class="text-muted small">Lunes a Sábado: 08:00 AM – 06:30 PM</div>
+                            <div class="text-muted small">Domingos: 08:30 AM – 02:00 PM</div>
+                            <span class="badge bg-success mt-2"><i class="bi bi-check-circle me-1"></i>Atención con Cita Prioritaria</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== PANEL DEL CLIENTE (RF06, RF07, RF08, RF10, RF13, RF16) ==================== -->
+    <section id="panelCliente" class="d-none mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="fw-bold text-primary mb-0"><i class="bi bi-person-badge me-2"></i>Portal del Cliente</h3>
+            <span class="badge bg-primary" id="badgeClienteNombre"></span>
+        </div>
+
+        <div class="row g-4">
+            <!-- Columna Izquierda: Mis Vehículos (RF10) y Nueva Reserva (RF06) -->
+            <div class="col-lg-4">
+                <!-- Registro de Vehículo -->
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-header bg-dark text-white fw-bold d-flex justify-content-between align-items-center">
+                        <span><i class="bi bi-car-front me-2 text-warning"></i>Mis Vehículos (RF10)</span>
+                        <span class="badge bg-secondary" id="contadorVehiculos">0</span>
+                    </div>
                     <div class="card-body">
-                        <form id="formVehiculo">
-                            <input type="text" class="form-control form-control-sm mb-2" id="vPlaca" placeholder="Placa (Ej. P1A-234)" required>
+                        <form id="formVehiculo" class="mb-3">
                             <div class="row g-2 mb-2">
-                                <div class="col"><input type="text" class="form-control form-control-sm" id="vMarca" placeholder="Marca" required></div>
-                                <div class="col"><input type="text" class="form-control form-control-sm" id="vModelo" placeholder="Modelo" required></div>
+                                <div class="col-6">
+                                    <input type="text" class="form-control form-control-sm text-uppercase" id="vPlaca" placeholder="Placa (Ej. ABC-123)" maxlength="8" required>
+                                </div>
+                                <div class="col-6">
+                                    <select class="form-select form-select-sm" id="vTipo" required>
+                                        <option value="AUTO">Auto</option>
+                                        <option value="CAMIONETA">Camioneta</option>
+                                        <option value="MOTOCICLETA">Motocicleta</option>
+                                        <option value="OTRO">Otro</option>
+                                    </select>
+                                </div>
                             </div>
-                            <button type="submit" class="btn btn-outline-primary btn-sm w-100">Guardar Vehículo</button>
+                            <div class="row g-2 mb-2">
+                                <div class="col-4"><input type="text" class="form-control form-control-sm" id="vMarca" placeholder="Marca" required></div>
+                                <div class="col-4"><input type="text" class="form-control form-control-sm" id="vModelo" placeholder="Modelo" required></div>
+                                <div class="col-4"><input type="text" class="form-control form-control-sm" id="vColor" placeholder="Color" required></div>
+                            </div>
+                            <button type="submit" class="btn btn-outline-dark btn-sm w-100 fw-semibold">
+                                <i class="bi bi-plus-lg me-1"></i>Registrar Vehículo
+                            </button>
                         </form>
+                        <ul id="listaMisVehiculos" class="list-group list-group-flush small"></ul>
                     </div>
                 </div>
 
+                <!-- Formulario de Reserva -->
                 <div class="card shadow-sm border-0">
-                    <div class="card-header bg-warning text-dark fw-bold">2. Solicitar Reserva</div>
+                    <div class="card-header bg-warning text-dark fw-bold">
+                        <i class="bi bi-calendar-plus me-2"></i>Agendar Nueva Reserva (RF06)
+                    </div>
                     <div class="card-body">
                         <form id="formReserva">
-                            <select class="form-select form-select-sm mb-2" id="rVehiculo" required></select>
-                            <select class="form-select form-select-sm mb-2" id="rServicio" required></select>
-                            <div class="row g-2 mb-2">
-                                <div class="col"><input type="date" class="form-control form-control-sm" id="rFecha" required></div>
-                                <div class="col"><input type="time" class="form-control form-control-sm" id="rHora" required></div>
+                            <div class="mb-2">
+                                <label class="form-label small fw-bold mb-1">Vehículo</label>
+                                <select class="form-select form-select-sm" id="rVehiculo" onchange="actualizarPrecioReserva()" required></select>
                             </div>
-                            <select class="form-select form-select-sm mb-3" id="rMetodoPago">
-                                <option value="EFECTIVO">Efectivo en local</option>
-                                <option value="TRANSFERENCIA">Yape / Plin / Transferencia</option>
-                                <option value="TARJETA">Tarjeta</option>
-                            </select>
+                            <div class="mb-2">
+                                <label class="form-label small fw-bold mb-1">Servicio</label>
+                                <select class="form-select form-select-sm" id="rServicio" onchange="actualizarPrecioReserva()" required></select>
+                            </div>
+                            <div class="row g-2 mb-2">
+                                <div class="col-6">
+                                    <label class="form-label small fw-bold mb-1">Fecha</label>
+                                    <input type="date" class="form-control form-control-sm" id="rFecha" required>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label small fw-bold mb-1">Horario</label>
+                                    <select class="form-select form-select-sm" id="rHora" required>
+                                        <option value="08:30">08:30 AM</option>
+                                        <option value="09:30">09:30 AM</option>
+                                        <option value="10:30">10:30 AM</option>
+                                        <option value="11:30">11:30 AM</option>
+                                        <option value="14:30">02:30 PM</option>
+                                        <option value="15:30">03:30 PM</option>
+                                        <option value="16:30">04:30 PM</option>
+                                        <option value="17:30">05:30 PM</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label small fw-bold mb-1">Método de Pago</label>
+                                <select class="form-select form-select-sm" id="rMetodoPago">
+                                    <option value="EFECTIVO">Efectivo en establecimiento</option>
+                                    <option value="TRANSFERENCIA">Transferencia / Yape / Plin</option>
+                                    <option value="TARJETA">Tarjeta POS en local</option>
+                                </select>
+                            </div>
+                            <div class="mb-2">
+                                <textarea class="form-control form-control-sm" id="rObservaciones" rows="2" placeholder="Observaciones (ej. lavado sin silicona en tablero)"></textarea>
+                            </div>
+                            <div class="alert alert-info py-2 px-3 small d-flex justify-content-between align-items-center mb-3">
+                                <span>Total estimado:</span>
+                                <strong class="fs-6" id="precioEstimadoReserva">S/ 0.00</strong>
+                            </div>
                             <button type="submit" class="btn btn-warning fw-bold w-100">Confirmar Reserva</button>
                         </form>
                     </div>
                 </div>
             </div>
 
+            <!-- Columna Derecha: Seguimiento en Tiempo Real e Historial (RF07, RF08, RF13, RF16, RNF14) -->
             <div class="col-lg-8">
                 <div class="card shadow-sm border-0">
-                    <div class="card-header bg-dark text-white fw-bold">Seguimiento en Vivo e Historial</div>
+                    <div class="card-header bg-primary text-white fw-bold d-flex justify-content-between align-items-center">
+                        <span><i class="bi bi-broadcast me-2"></i>Seguimiento en Vivo e Historial de Servicios (RF13 / RF16)</span>
+                        <button class="btn btn-light btn-sm" onclick="renderClientePanel()"><i class="bi bi-arrow-clockwise"></i></button>
+                    </div>
+                    <div class="card-body" id="contenedorReservasCliente"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== PANEL OPERATIVO: PERSONAL Y ADMINISTRADOR (RF03, RF05, RF09, RF11, RF12, RF14, RF15, RF18) ==================== -->
+    <section id="panelOperativo" class="d-none mb-5">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+            <div>
+                <h3 class="fw-bold mb-0"><i class="bi bi-speedometer2 text-warning me-2"></i>Panel de Gestión Operativa</h3>
+                <small class="text-muted" id="subtituloRolOperativo"></small>
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-outline-dark btn-sm" onclick="exportarReporteCSV()">
+                    <i class="bi bi-file-earmark-spreadsheet me-1"></i>Exportar Reporte CSV (RF18)
+                </button>
+            </div>
+        </div>
+
+        <!-- KPIs de Gestión (RF18) -->
+        <div class="row g-3 mb-4" id="kpiOperativo"></div>
+
+        <!-- Pestañas de Módulos Administrativos -->
+        <ul class="nav nav-tabs mb-3" id="tabsAdmin" role="tablist">
+            <li class="nav-item">
+                <button class="nav-link active fw-semibold" data-bs-toggle="tab" data-bs-target="#tabAtencion" type="button">
+                    <i class="bi bi-wrench-adjustable-circle me-1"></i>Atención Vehicular y Caja (RF09-RF15)
+                </button>
+            </li>
+            <li class="nav-item d-none" id="tabItemServicios">
+                <button class="nav-link fw-semibold" data-bs-toggle="tab" data-bs-target="#tabServicios" type="button">
+                    <i class="bi bi-tags me-1"></i>Gestión de Servicios (RF05)
+                </button>
+            </li>
+            <li class="nav-item d-none" id="tabItemUsuarios">
+                <button class="nav-link fw-semibold" data-bs-toggle="tab" data-bs-target="#tabUsuarios" type="button">
+                    <i class="bi bi-people me-1"></i>Gestión de Usuarios y Roles (RF03)
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <!-- TAB 1: Atención Vehicular, Seguimiento de Estados y Pagos -->
+            <div class="tab-pane fade show active" id="tabAtencion">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-dark text-white d-flex flex-wrap justify-content-between align-items-center gap-2">
+                        <span class="fw-bold">Control de Reservas, Recepción y Flujo de Lavado</span>
+                        <input type="text" id="buscadorAtencion" class="form-control form-control-sm w-auto" placeholder="Buscar placa o cliente..." onkeyup="renderTablaOperativa()">
+                    </div>
                     <div class="card-body table-responsive">
                         <table class="table table-hover align-middle small">
                             <thead class="table-light">
-                                <tr><th>Fecha/Hora</th><th>Vehículo</th><th>Servicio</th><th>Estado</th><th>Pago</th><th>Acción</th></tr>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Cliente</th>
+                                    <th>Vehículo</th>
+                                    <th>Servicio y Tarifa</th>
+                                    <th>Cita / Recepción (RF11)</th>
+                                    <th>Estado Atención (RF12)</th>
+                                    <th>Estado Pago (RF14/RF15)</th>
+                                    <th>Trazabilidad</th>
+                                </tr>
                             </thead>
-                            <tbody id="tablaReservasCliente"></tbody>
+                            <tbody id="tbodyOperativo"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: Administración de Servicios (Solo ADMINISTRADOR - RF05) -->
+            <div class="tab-pane fade" id="tabServicios">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <span class="fw-bold">Catálogo Administrativo de Servicios</span>
+                        <button class="btn btn-warning btn-sm fw-bold" onclick="abrirModalServicio()">
+                            <i class="bi bi-plus-circle me-1"></i>Agregar Servicio
+                        </button>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <table class="table table-bordered align-middle small">
+                            <thead class="table-light">
+                                <tr><th>ID</th><th>Nombre</th><th>Descripción</th><th>Precio Base (Auto)</th><th>Duración</th><th>Estado</th><th>Acciones</th></tr>
+                            </thead>
+                            <tbody id="tbodyAdminServicios"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: Administración de Usuarios (Solo ADMINISTRADOR - RF03) -->
+            <div class="tab-pane fade" id="tabUsuarios">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-dark text-warning fw-bold">Control de Cuentas y Roles del Sistema</div>
+                    <div class="card-body table-responsive">
+                        <table class="table table-bordered align-middle small">
+                            <thead class="table-light">
+                                <tr><th>ID</th><th>Nombres y Apellidos</th><th>Correo</th><th>Teléfono</th><th>Rol Asignado</th><th>Estado</th></tr>
+                            </thead>
+                            <tbody id="tbodyAdminUsuarios"></tbody>
                         </table>
                     </div>
                 </div>
@@ -109,63 +335,167 @@
         </div>
     </section>
 
-    <!-- Panel Admin -->
-    <section id="panelAdmin" class="d-none mb-5">
-        <div class="card shadow border-0">
-            <div class="card-header bg-dark text-warning fw-bold d-flex justify-content-between">
-                <span>Control Operativo de Atención y Caja</span>
-                <span id="resumenKPI" class="badge bg-warning text-dark"></span>
-            </div>
-            <div class="card-body table-responsive">
-                <table class="table table-bordered align-middle small">
-                    <thead class="table-dark">
-                        <tr><th>#</th><th>Cliente</th><th>Vehículo</th><th>Servicio</th><th>Cita</th><th>Estado Lavado</th><th>Pago</th></tr>
-                    </thead>
-                    <tbody id="tablaAdmin"></tbody>
-                </table>
-            </div>
-        </div>
-    </section>
 </main>
 
-<!-- Modales Login, Registro y Servicio -->
+<footer class="bg-dark text-light py-4 mt-5">
+    <div class="container text-center small">
+        <p class="mb-1 fw-bold">Car Wash & Oleocentro "San Juan" — RUC 20613143484</p>
+        <p class="text-secondary mb-0">Sistema Web desarrollado bajo enfoque Scrum & ISO/IEC 25010 • 2026</p>
+    </div>
+</footer>
+
+<!-- ==================== MODALES ==================== -->
+
+<!-- Modal Login (RF02) -->
 <div class="modal fade" id="modalLogin" tabindex="-1">
-    <div class="modal-dialog"><form id="formLogin" class="modal-content">
-        <div class="modal-header bg-dark text-white"><h5 class="modal-title">Iniciar Sesión</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
-        <div class="modal-body">
-            <input type="email" class="form-control mb-2" id="loginCorreo" placeholder="Correo electrónico" required>
-            <input type="password" class="form-control mb-2" id="loginClave" placeholder="Contraseña" required>
-            <small class="text-muted">Demo Admin: <code>admin@carwashsanjuan.com</code> / <code>admin123</code></small>
-        </div>
-        <div class="modal-footer"><button type="submit" class="btn btn-primary w-100">Ingresar</button></div>
-    </form></div>
-</div>
-
-<div class="modal fade" id="modalRegistro" tabindex="-1">
-    <div class="modal-dialog"><form id="formRegistro" class="modal-content">
-        <div class="modal-header bg-warning"><h5 class="modal-title fw-bold">Registro de Cliente</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-        <div class="modal-body">
-            <input type="text" class="form-control mb-2" id="regNombres" placeholder="Nombres completos" required>
-            <input type="email" class="form-control mb-2" id="regCorreo" placeholder="Correo electrónico" required>
-            <input type="password" class="form-control mb-2" id="regClave" placeholder="Contraseña" required>
-        </div>
-        <div class="modal-footer"><button type="submit" class="btn btn-dark w-100">Crear Cuenta</button></div>
-    </form></div>
-</div>
-
-<div class="modal fade" id="modalServicio" tabindex="-1">
-    <div class="modal-dialog"><form id="formServicio" class="modal-content">
-        <div class="modal-header bg-primary text-white"><h5 class="modal-title">Nuevo Servicio</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
-        <div class="modal-body">
-            <input type="text" class="form-control mb-2" id="sNombre" placeholder="Nombre del servicio" required>
-            <textarea class="form-control mb-2" id="sDescripcion" placeholder="Descripción" required></textarea>
-            <div class="row g-2">
-                <div class="col"><input type="number" step="0.01" class="form-control" id="sPrecio" placeholder="Precio (S/)" required></div>
-                <div class="col"><input type="number" class="form-control" id="sDuracion" placeholder="Minutos" value="30" required></div>
+    <div class="modal-dialog">
+        <form id="formLogin" class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title"><i class="bi bi-shield-lock me-2 text-warning"></i>Iniciar Sesión</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label small fw-bold">Correo Electrónico</label>
+                    <input type="email" class="form-control" id="loginCorreo" placeholder="usuario@correo.com" required>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label small fw-bold">Contraseña</label>
+                    <input type="password" class="form-control" id="loginClave" placeholder="••••••" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary w-100 fw-bold">Ingresar al Sistema</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Registro Cliente (RF01 + RF17) -->
+<div class="modal fade" id="modalRegistro" tabindex="-1">
+    <div class="modal-dialog">
+        <form id="formRegistro" class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title fw-bold"><i class="bi bi-person-plus-fill me-2"></i>Registro de Nuevo Cliente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-2 mb-2">
+                    <div class="col-6">
+                        <label class="form-label small fw-bold">Nombres</label>
+                        <input type="text" class="form-control" id="regNombres" required>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label small fw-bold">Apellidos</label>
+                        <input type="text" class="form-control" id="regApellidos" required>
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label small fw-bold">Correo Electrónico</label>
+                    <input type="email" class="form-control" id="regCorreo" required>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label small fw-bold">Teléfono / WhatsApp (9 dígitos)</label>
+                    <input type="tel" class="form-control" id="regTelefono" pattern="[0-9]{9}" placeholder="987654321" required>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label small fw-bold">Contraseña (mínimo 6 caracteres)</label>
+                    <input type="password" class="form-control" id="regClave" minlength="6" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-dark w-100 fw-bold">Completar Registro</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Modificar Reserva (RF07) -->
+<div class="modal fade" id="modalEditarReserva" tabindex="-1">
+    <div class="modal-dialog">
+        <form id="formEditarReserva" class="modal-content">
+            <div class="modal-header bg-info text-dark">
+                <h5 class="modal-title fw-bold"><i class="bi bi-pencil-square me-2"></i>Reprogramar Reserva (RF07)</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="editResId">
+                <div class="mb-3">
+                    <label class="form-label small fw-bold">Nueva Fecha</label>
+                    <input type="date" class="form-control" id="editResFecha" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label small fw-bold">Nuevo Horario</label>
+                    <select class="form-select" id="editResHora" required>
+                        <option value="08:30">08:30 AM</option>
+                        <option value="09:30">09:30 AM</option>
+                        <option value="10:30">10:30 AM</option>
+                        <option value="11:30">11:30 AM</option>
+                        <option value="14:30">02:30 PM</option>
+                        <option value="15:30">03:30 PM</option>
+                        <option value="16:30">04:30 PM</option>
+                        <option value="17:30">05:30 PM</option>
+                    </select>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label small fw-bold">Observaciones</label>
+                    <textarea class="form-control" id="editResObs" rows="2"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-info fw-bold w-100">Guardar Cambios</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Servicio Crear/Editar (RF05) -->
+<div class="modal fade" id="modalServicio" tabindex="-1">
+    <div class="modal-dialog">
+        <form id="formServicio" class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="tituloModalServicio">Registrar Servicio</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="servId">
+                <div class="mb-2">
+                    <label class="form-label small fw-bold">Nombre del Servicio</label>
+                    <input type="text" class="form-control" id="servNombre" required>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label small fw-bold">Descripción</label>
+                    <textarea class="form-control" id="servDesc" rows="2" required></textarea>
+                </div>
+                <div class="row g-2">
+                    <div class="col-6">
+                        <label class="form-label small fw-bold">Precio Base Auto (S/)</label>
+                        <input type="number" step="0.50" min="1" class="form-control" id="servPrecio" required>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label small fw-bold">Duración (minutos)</label>
+                        <input type="number" min="10" class="form-control" id="servDuracion" value="30" required>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary w-100 fw-bold">Guardar Servicio</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Historial / Trazabilidad (RNF14) -->
+<div class="modal fade" id="modalHistorial" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-warning">
+                <h5 class="modal-title"><i class="bi bi-clock-history me-2"></i>Bitácora de Trazabilidad (RNF14)</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="cuerpoModalHistorial"></div>
         </div>
-        <div class="modal-footer"><button type="submit" class="btn btn-primary w-100">Guardar</button></div>
-    </form></div>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

@@ -1,4 +1,108 @@
-body { background-color: #f4f6f9; font-family: 'Segoe UI', system-ui, sans-serif; }
-.hero-banner { background: linear-gradient(135deg, #0a2540 0%, #0d47a1 100%); color: #fff; border-radius: 1rem; padding: 2.5rem; }
-.card-servicio { transition: transform 0.2s; border: none; border-top: 4px solid #ff6f00; }
-.card-servicio:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
+:root {
+    --cw-navy: #0a2540;
+    --cw-blue: #0d47a1;
+    --cw-orange: #ff6f00;
+}
+
+body {
+    background-color: #f0f3f8;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    color: #1e293b;
+}
+
+.brand-badge {
+    background-color: var(--cw-orange);
+    color: #fff;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, var(--cw-navy) 0%, var(--cw-blue) 100%);
+    color: #ffffff;
+    border-radius: 1rem;
+    padding: 2.5rem;
+}
+
+.card-servicio {
+    border: none;
+    border-top: 4px solid var(--cw-orange);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-servicio:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(10, 37, 64, 0.12) !important;
+}
+
+/* Barra visual de progreso de lavado para el cliente (RF13) */
+.stepper-lavado {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin: 1rem 0;
+}
+
+.stepper-lavado::before {
+    content: "";
+    position: absolute;
+    top: 14px;
+    left: 10%;
+    right: 10%;
+    height: 3px;
+    background: #dee2e6;
+    z-index: 0;
+}
+
+.step-item {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    width: 25%;
+}
+
+.step-circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #dee2e6;
+    color: #64748b;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.step-item.active .step-circle {
+    background: var(--cw-blue);
+    color: #fff;
+    box-shadow: 0 0 0 4px rgba(13, 71, 161, 0.2);
+}
+
+.step-item.done .step-circle {
+    background: #198754;
+    color: #fff;
+}
+
+.timeline-item {
+    border-left: 2px solid var(--cw-blue);
+    padding-left: 1rem;
+    padding-bottom: 0.75rem;
+    position: relative;
+}
+
+.timeline-item::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    background: var(--cw-orange);
+    border-radius: 50%;
+    position: absolute;
+    left: -6px;
+    top: 4px;
+}
